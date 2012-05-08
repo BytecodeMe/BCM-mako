@@ -130,6 +130,7 @@ static DEFINE_PER_CPU(struct call_single_data, cpuidle_coupled_poke_cb);
 static cpumask_t cpuidle_coupled_poked_mask;
 
 /**
+<<<<<<< HEAD
  * cpuidle_coupled_parallel_barrier - synchronize all online coupled cpus
  * @dev: cpuidle_device of the calling cpu
  * @a:   atomic variable to hold the barrier
@@ -167,6 +168,8 @@ void cpuidle_coupled_parallel_barrier(struct cpuidle_device *dev, atomic_t *a)
 }
 
 /**
+=======
+>>>>>>> 4126c01... cpuidle: add support for states that affect multiple cpus
  * cpuidle_state_is_coupled - check if a state is part of a coupled set
  * @dev: struct cpuidle_device for the current cpu
  * @drv: struct cpuidle_driver for the platform
@@ -678,6 +681,7 @@ static int cpuidle_coupled_cpu_notify(struct notifier_block *nb,
 	int cpu = (unsigned long)hcpu;
 	struct cpuidle_device *dev;
 
+<<<<<<< HEAD
 	switch (action & ~CPU_TASKS_FROZEN) {
 	case CPU_UP_PREPARE:
 	case CPU_DOWN_PREPARE:
@@ -690,6 +694,8 @@ static int cpuidle_coupled_cpu_notify(struct notifier_block *nb,
 		return NOTIFY_OK;
 	}
 
+=======
+>>>>>>> 4126c01... cpuidle: add support for states that affect multiple cpus
 	mutex_lock(&cpuidle_lock);
 
 	dev = per_cpu(cpuidle_devices, cpu);
