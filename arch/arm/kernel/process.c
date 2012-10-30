@@ -293,6 +293,10 @@ void cpu_idle(void)
 		tick_nohz_idle_exit();
 		idle_notifier_call_chain(IDLE_END);
 		schedule_preempt_disabled();
+#ifdef CONFIG_HOTPLUG_CPU
+		if (cpu_is_offline(smp_processor_id()))
+			cpu_die();
+#endif
 	}
 }
 
