@@ -382,7 +382,6 @@ void __sg_page_iter_start(struct sg_page_iter *piter,
 	piter->__pg_advance = 0;
 	piter->__nents = nents;
 
-	piter->page = NULL;
 	piter->sg = sglist;
 	piter->sg_pgoffset = pgoffset;
 }
@@ -407,7 +406,6 @@ bool __sg_page_iter_next(struct sg_page_iter *piter)
 		if (!--piter->__nents || !piter->sg)
 			return false;
 	}
-	piter->page = nth_page(sg_page(piter->sg), piter->sg_pgoffset);
 
 	return true;
 }
@@ -477,7 +475,7 @@ bool sg_miter_next(struct sg_mapping_iter *miter)
 		miter->__remaining = min_t(unsigned long, miter->__remaining,
 					   PAGE_SIZE - miter->__offset);
 	}
-	miter->page = miter->piter.page;
+	miter->page = sg_page_iter_page(&miter->piter);
 	miter->consumed = miter->length = miter->__remaining;
 
 	if (miter->__flags & SG_MITER_ATOMIC)
