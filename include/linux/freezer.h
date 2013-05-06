@@ -158,7 +158,32 @@ static inline void freezable_schedule_unsafe(void)
 	schedule();
 	freezer_count_unsafe();
 }
->>>>>>> 3f67050... freezer: convert freezable helpers to static inline where possible
+
+/*
+ * Like freezable_schedule_timeout(), but should not block the freezer.  Do not
+ * call this with locks held.
+ */
+static inline long freezable_schedule_timeout(long timeout)
+{
+	long __retval;
+	freezer_do_not_count();
+	__retval = schedule_timeout(timeout);
+	freezer_count();
+	return __retval;
+}
+
+/*
+ * Like schedule_timeout_interruptible(), but should not block the freezer.  Do not
+ * call this with locks held.
+ */
+static inline long freezable_schedule_timeout_interruptible(long timeout)
+{
+	long __retval;
+	freezer_do_not_count();
+	__retval = schedule_timeout_interruptible(timeout);
+	freezer_count();
+	return __retval;
+}
 
 /* Like schedule_timeout_killable(), but should not block the freezer. */
 static inline long freezable_schedule_timeout_killable(long timeout)
@@ -180,7 +205,20 @@ static inline long freezable_schedule_timeout_killable_unsafe(long timeout)
 	return __retval;
 }
 
->>>>>>> 62d7286... freezer: add unsafe versions of freezable helpers for NFS
+/*
+ * Like schedule_hrtimeout_range(), but should not block the freezer.  Do not
+ * call this with locks held.
+ */
+static inline int freezable_schedule_hrtimeout_range(ktime_t *expires,
+		unsigned long delta, const enum hrtimer_mode mode)
+{
+	int __retval;
+	freezer_do_not_count();
+	__retval = schedule_hrtimeout_range(expires, delta, mode);
+	freezer_count();
+	return __retval;
+}
+
 /*
  * Freezer-friendly wrappers around wait_event_interruptible(),
  * wait_event_killable() and wait_event_interruptible_timeout(), originally
@@ -225,7 +263,7 @@ static inline long freezable_schedule_timeout_killable_unsafe(long timeout)
 	__retval;							\
 })
 
-#define wait_event_freezable_exclusive(wq, condition)		\
+#define wait_event_freezable_exclusive(wq, condition)			\
 ({									\
 	int __retval;							\
 	freezer_do_not_count();						\
@@ -257,11 +295,19 @@ static inline void set_freezable(void) {}
 
 #define freezable_schedule_unsafe()  schedule()
 
+#define freezable_schedule_timeout(timeout)  schedule_timeout(timeout)
+
+#define freezable_schedule_timeout_interruptible(timeout)		\
+	schedule_timeout_interruptible(timeout)
+
 #define freezable_schedule_timeout_killable(timeout)			\
 	schedule_timeout_killable(timeout)
 
 #define freezable_schedule_timeout_killable_unsafe(timeout)		\
 	schedule_timeout_killable(timeout)
+
+#define freezable_schedule_hrtimeout_range(expires, delta, mode)	\
+	schedule_hrtimeout_range(expires, delta, mode)
 
 #define wait_event_freezable(wq, condition)				\
 		wait_event_interruptible(wq, condition)
