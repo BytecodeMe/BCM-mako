@@ -164,19 +164,6 @@ static inline int freezer_should_skip(struct task_struct *p)
 	__retval;							\
 })
 
-<<<<<<< HEAD
-/* Like schedule_hrtimeout_range(), but should not block the freezer. */
-#define freezable_schedule_hrtimeout_range(expires, delta, mode)	\
-({									\
-	int __retval;							\
-	freezer_do_not_count();						\
-	__retval = schedule_hrtimeout_range(expires, delta, mode);	\
-	freezer_count();						\
-	__retval;							\
-})
-
-
-=======
 /* DO NOT ADD ANY NEW CALLERS OF THIS FUNCTION */
 #define freezable_schedule_timeout_killable_unsafe(timeout)		\
 ({									\
@@ -227,7 +214,7 @@ static inline int freezer_should_skip(struct task_struct *p)
 	long __retval = timeout;					\
 	freezer_do_not_count();						\
 	__retval = wait_event_interruptible_timeout(wq,	(condition),	\
-				__retval); 				\
+				__retval);				\
 	freezer_count();						\
 	__retval;							\
 })
@@ -262,25 +249,13 @@ static inline void set_freezable(void) {}
 
 #define freezable_schedule()  schedule()
 
-<<<<<<< HEAD
-#define freezable_schedule_timeout(timeout)  schedule_timeout(timeout)
-
-#define freezable_schedule_timeout_interruptible(timeout)		\
-	schedule_timeout_interruptible(timeout)
-=======
 #define freezable_schedule_unsafe()  schedule()
->>>>>>> 62d7286... freezer: add unsafe versions of freezable helpers for NFS
 
 #define freezable_schedule_timeout_killable(timeout)			\
 	schedule_timeout_killable(timeout)
 
-<<<<<<< HEAD
-#define freezable_schedule_hrtimeout_range(expires, delta, mode)	\
-	schedule_hrtimeout_range(expires, delta, mode)
-=======
 #define freezable_schedule_timeout_killable_unsafe(timeout)		\
 	schedule_timeout_killable(timeout)
->>>>>>> 62d7286... freezer: add unsafe versions of freezable helpers for NFS
 
 #define wait_event_freezable(wq, condition)				\
 		wait_event_interruptible(wq, condition)
