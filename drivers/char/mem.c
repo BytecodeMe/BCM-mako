@@ -27,6 +27,8 @@
 #include <linux/splice.h>
 #include <linux/pfn.h>
 #include <linux/export.h>
+#include <linux/io.h>
+#include <linux/aio.h>
 
 #include <asm/uaccess.h>
 #include <asm/io.h>
