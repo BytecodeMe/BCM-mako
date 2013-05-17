@@ -32,8 +32,8 @@ static int try_to_freeze_tasks(bool user_only)
 	unsigned int todo;
 	bool wq_busy = false;
 	struct timeval start, end;
-	u64 elapsed_msecs64;
-	unsigned int elapsed_msecs;
+    u64 elapsed_msecs64;
+    unsigned int elapsed_msecs;
 	bool wakeup = false;
 	int sleep_usecs = USEC_PER_MSEC;
 
@@ -89,8 +89,8 @@ static int try_to_freeze_tasks(bool user_only)
 		 * time to enter the regrigerator.
 		 */
 		usleep_range(sleep_usecs / 2, sleep_usecs);
-		if (sleep_usecs < 8 * USEC_PER_MSEC)
-			sleep_usecs *= 2;
+	    if (sleep_usecs < 8 * USEC_PER_MSEC)
+    	  sleep_usecs *= 2;
 	}
 
 	do_gettimeofday(&end);
@@ -111,7 +111,7 @@ static int try_to_freeze_tasks(bool user_only)
 		}
 		else {
 			printk("\n");
-		printk(KERN_ERR "Freezing of tasks %s after %d.%03d seconds "
+			printk(KERN_ERR "Freezing of tasks %s after %d.%03d seconds "
 			       "(%d tasks refusing to freeze, wq_busy=%d):\n",
 			       wakeup ? "aborted" : "failed",
 			       elapsed_msecs / 1000, elapsed_msecs % 1000,
