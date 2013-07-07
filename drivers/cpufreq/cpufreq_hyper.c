@@ -1,5 +1,5 @@
 /*
- *  drivers/cpufreq/cpufreq_HYPER.c
+ *  drivers/cpufreq/cpufreq_hyper.c
  *
  *  Copyright (C)  2001 Russell King
  *            (C)  2003 Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>.
@@ -85,8 +85,8 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_HYPER
 static
 #endif
-struct cpufreq_governor cpufreq_gov_HYPER = {
-       .name                   = "HYPER",
+struct cpufreq_governor cpufreq_gov_hyper = {
+       .name                   = "hyper",
        .governor               = cpufreq_governor_dbs,
        .max_transition_latency = TRANSITION_LATENCY_LIMIT,
        .owner                  = THIS_MODULE,
@@ -667,7 +667,7 @@ static struct attribute *dbs_attributes[] = {
 
 static struct attribute_group dbs_attr_group = {
 	.attrs = dbs_attributes,
-	.name = "HYPER",
+	.name = "hyper",
 };
 
 /************************** sysfs end ************************/
@@ -810,7 +810,7 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 			continue;
 
 		/*
-		 * For the purpose of HYPER, waiting for disk IO is an
+		 * For the purpose of hyper, waiting for disk IO is an
 		 * indication that you're performance critical, and not that
 		 * the system is actually idle. So subtract the iowait time
 		 * from the cpu idle time.
@@ -1163,7 +1163,7 @@ static int __init cpufreq_gov_dbs_init(void)
 	if (err)
 		goto error_reg;
 
-	err = cpufreq_register_governor(&cpufreq_gov_HYPER);
+	err = cpufreq_register_governor(&cpufreq_gov_hyper);
 	if (err) {
 		pm_qos_remove_notifier(PM_QOS_DVFS_RESPONSE_LATENCY,
 				       &hyper_qos_dvfs_lat_nb);
@@ -1181,13 +1181,13 @@ static void __exit cpufreq_gov_dbs_exit(void)
 	pm_qos_remove_notifier(PM_QOS_DVFS_RESPONSE_LATENCY,
 			       &hyper_qos_dvfs_lat_nb);
 
-	cpufreq_unregister_governor(&cpufreq_gov_HYPER);
+	cpufreq_unregister_governor(&cpufreq_gov_hyper);
 	kfree(&dbs_tuners_ins);
 }
 
 MODULE_AUTHOR("Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>");
 MODULE_AUTHOR("Alexey Starikovskiy <alexey.y.starikovskiy@intel.com>");
-MODULE_DESCRIPTION("'cpufreq_HYPER' - A dynamic cpufreq governor for "
+MODULE_DESCRIPTION("'cpufreq_hyper' - A dynamic cpufreq governor for "
 	"Low Latency Frequency Transition capable processors");
 MODULE_LICENSE("GPL");
 
