@@ -1,4 +1,4 @@
-if ARCH_MSM
+\if ARCH_MSM
 
 menu "MSM SoC Type"
 
@@ -1614,6 +1614,12 @@ config MSM_CPU_FREQ_MIN
 	default 245760
 
 endif # CPU_FREQ_MSM
+
+config LOW_CPUCLOCKS
+	bool "Enable ultra low CPU clocks"
+	default n
+	help
+	  Ultra low cpu frequencies enabled for CPU and L2 Cache
 
 config CPU_OVERCLOCK
 	bool "Enable CPU Overclocking option"
