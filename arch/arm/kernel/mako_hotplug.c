@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2013, Francisco Franco <franciscofranco.1990@gmail.com>. 
  *
@@ -140,7 +141,7 @@ static void __cpuinit decide_hotplug_func(struct work_struct *work)
     queue_delayed_work(wq, &decide_hotplug, msecs_to_jiffies(TIMER));
 }
 
-static void __cpuinit mako_hotplug_early_suspend(struct early_suspend *handler)
+static void mako_hotplug_early_suspend(struct early_suspend *handler)
 {	 
     int cpu;
 
@@ -190,7 +191,7 @@ static void __cpuinit mako_hotplug_late_resume(struct early_suspend *handler)
     queue_delayed_work(wq, &decide_hotplug, HZ);
 }
 
-static struct early_suspend mako_hotplug_suspend =
+static struct early_suspend __refdata mako_hotplug_suspend =
 {
     .level = EARLY_SUSPEND_LEVEL_BLANK_SCREEN + 1,
 	.suspend = mako_hotplug_early_suspend,
@@ -254,4 +255,3 @@ int __init mako_hotplug_init(void)
     return 0;
 }
 late_initcall(mako_hotplug_init);
-
