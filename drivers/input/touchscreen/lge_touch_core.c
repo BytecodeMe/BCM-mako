@@ -443,7 +443,7 @@ static int touch_ic_init(struct lge_touch_data *ts)
 		next_work = atomic_read(&ts->next_work);
 
 		if (unlikely(int_pin != 1 && next_work <= 0)) {
-			TOUCH_INFO_MSG("WARN: (init)Interrupt pin is low"
+			TOUCH_INFO_MSG("WARN: Interrupt pin is low"
 					" - next_work: %d, try_count: %d]\n",
 					next_work, ts->ic_init_err_cnt);
 			goto err_out_retry;
@@ -909,7 +909,7 @@ out:
 		next_work = atomic_read(&ts->next_work);
 
 		if (unlikely(int_pin != 1 && next_work <= 0)) {
-			TOUCH_INFO_MSG("WARN: (work)Interrupt pin is low - "
+			TOUCH_INFO_MSG("WARN: Interrupt pin is low - "
 					"next_work: %d, try_count: %d]\n",
 					next_work, ts->work_sync_err_cnt);
 			goto err_out_retry;
@@ -2378,13 +2378,13 @@ static void touch_late_resume(struct early_suspend *h)
 			next_work = atomic_read(&ts->next_work);
 
 			if (unlikely(int_pin != 1 && next_work <= 0)) {
-				TOUCH_INFO_MSG("WARN: (s2w)Interrupt pin is low"
+				TOUCH_INFO_MSG("WARN: Interrupt pin is low"
 						" - next_work: %d, try_count: %d]\n",
 						next_work, ts->ic_init_err_cnt);
-				pr_warn("touch core: (s2w)force safety reset!\n");
+				ts->ic_init_err_cnt++;
 				safety_reset(ts);
-				pr_warn("touch core: (s2w)force IC init!\n");
-				touch_ic_init(ts);
+				queue_delayed_work(touch_wq,
+					&ts->work_init, msecs_to_jiffies(10));
 			}
 		}
 	}
