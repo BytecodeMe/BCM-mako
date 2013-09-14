@@ -146,12 +146,6 @@ static inline void freezable_schedule(void)
 }
 
 /* DO NOT ADD ANY NEW CALLERS OF THIS FUNCTION */
-#define freezable_schedule_unsafe()					\
-({									\
-	freezer_do_not_count();						\
-	schedule();							\
-	freezer_count_unsafe();						\
-})
 static inline void freezable_schedule_unsafe(void)
 {
 	freezer_do_not_count();
