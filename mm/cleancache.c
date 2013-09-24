@@ -136,7 +136,6 @@ struct cleancache_ops cleancache_register_ops(struct cleancache_ops *ops)
 			shared_fs_poolid_map[i] = (*cleancache_ops.init_shared_fs)
 					(uuids[i], PAGE_SIZE);
 	}
-out:
 	mutex_unlock(&poolid_mutex);
 	return old;
 }
