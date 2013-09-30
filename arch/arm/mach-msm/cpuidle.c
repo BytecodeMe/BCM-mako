@@ -86,7 +86,6 @@ static int msm_cpuidle_enter(
 		}
 	}
 
-
 	local_irq_enable();
 
 	return ret;
