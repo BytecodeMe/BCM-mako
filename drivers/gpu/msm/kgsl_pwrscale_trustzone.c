@@ -169,6 +169,9 @@ static void tz_wake(struct kgsl_device *device, struct kgsl_pwrscale *pwrscale)
 
 #define HISTORY_SIZE 10
 
+static int default_laziness = 5;
+module_param_named(simple_laziness, default_laziness, int, 0664); /*keep fauxclock compatibility*/
+
 static int ramp_up_threshold = 7000;
 module_param_named(simple_ramp_threshold, ramp_up_threshold, int, 0664);
 
