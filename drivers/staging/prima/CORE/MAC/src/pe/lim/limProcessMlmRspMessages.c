@@ -1915,7 +1915,7 @@ void limProcessStaMlmAddStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ ,tpPESess
     }
     else
     {
-        limLog( pMac, LOGW, FL( "ADD_STA failed!\n"));
+        limLog( pMac, LOGE, FL( "ADD_STA failed!"));
         mlmAssocCnf.resultCode = (tSirResultCodes) eSIR_SME_REFUSED;
     }
 end:
@@ -2012,7 +2012,7 @@ void limProcessStaMlmDelBssRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPESessi
     }
     else
     {
-        limLog( pMac, LOGP, FL( "DEL BSS failed!\n" ) );
+        limLog( pMac, LOGE, FL( "DEL BSS failed!" ) );
         palFreeMemory( pMac->hHdd, (void *) pDelBssParams );
         return;
     }
@@ -2265,7 +2265,7 @@ void limProcessStaMlmDelStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPESessi
     }
     else
     {
-        limLog( pMac, LOGW, FL( "DEL_STA failed!\n" ));
+        limLog( pMac, LOGE, FL( "DEL_STA failed for sta Id %d\n" ), pStaDs->staIndex);
         statusCode = eSIR_SME_REFUSED;
     }
 end:
@@ -2886,7 +2886,7 @@ end:
 
     mlmReassocCnf.resultCode = eSIR_SME_FT_REASSOC_FAILURE;
     mlmReassocCnf.protStatusCode = eSIR_MAC_UNSPEC_FAILURE_STATUS;
-    /* Update PE sessio Id*/
+    /* Update PE session Id*/
     if (psessionEntry != NULL)
         mlmReassocCnf.sessionId = psessionEntry->peSessionId;
 
